@@ -1,0 +1,86 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+  <bean id="fooParent"
+	abstract="true"
+	class="org.arjibus.poc.boozy.eloader.javabeans.Foo"/>
+
+
+  <bean id="foo.properties"
+	class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="properties">
+      <props>
+	<prop key="alfa"> NATO phonetic letter alfa </prop>
+	<prop key="bravo"> NATO phonetic letter bravo</prop>
+	<prop key="charlie"> NATO phonetic letter charlie</prop>
+	<prop key="delta"> NATO phonetic letter delta</prop>
+	<prop key="echo"> NATO phonetic letter echo</prop>
+	<prop key="foxtrot"> NATO phonetic letter foxtrot</prop>
+	<prop key="gold"> NATO phonetic letter gold</prop>
+	<prop key="hotel"> NATO phonetic letter hotel</prop>
+	<prop key="india"> NATO phonetic letter india</prop>
+	<prop key="juliet"> NATO phonetic letter juliet</prop>
+	<prop key="kilo"> NATO phonetic letter kilo</prop>
+	<prop key="lima"> NATO phonetic letter lima</prop>
+	<prop key="mike"> NATO phonetic letter mike</prop>
+      </props>
+    </property>
+  </bean>
+  
+  <bean id="alfa" parent="fooParent">
+    <property name="value" value="${alfa}"/>
+  </bean>
+  
+  <bean id="bravo" parent="fooParent">
+    <property name="value" value="${bravo}"/>
+  </bean>
+  
+  <bean id="charlie" parent="fooParent">
+    <property name="value" value="${charlie}"/>
+  </bean>
+  
+  <bean id="delta" parent="fooParent">
+    <property name="value" value="${delta}"/>
+  </bean>
+  
+  <bean id="echo" parent="fooParent">
+    <property name="value" value="${echo}"/>
+  </bean>
+  
+  <bean id="foxtrot" parent="fooParent">
+    <property name="value" value="${foxtrot}"/>
+  </bean>
+  
+  <bean id="gold" parent="fooParent">
+    <property name="value" value="${gold}"/>
+  </bean>
+  
+  <bean id="hotel" parent="fooParent">
+    <property name="value" value="${hotel}"/>
+  </bean>
+  
+  <bean id="india" parent="fooParent">
+    <property name="value" value="${india}"/>
+  </bean>
+  
+  <bean id="juliet" parent="fooParent">
+    <property name="value" value="${juliet}"/>
+  </bean>
+  
+  <bean id="kilo" parent="fooParent">
+    <property name="value" value="${kilo}"/>
+  </bean>
+  
+  <bean id="lima" parent="fooParent">
+    <property name="value" value="${lima}"/>
+  </bean>
+  
+  <bean id="mike" parent="fooParent">
+    <property name="value" value="${mike}"/>
+  </bean>
+
+  
+
+</beans>
