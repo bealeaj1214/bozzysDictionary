@@ -24,6 +24,7 @@
 	<prop key="xray"> NATO phonetic letter xray</prop>
 	<prop key="yankee"> NATO phonetic letter yankee</prop>
 	<prop key="zulu"> NATO phonetic letter zulu</prop>
+	<prop key="bar.greek.letters">omega, psi, upsilon, tau,sigma</prop>
       </props>
     </property>
   </bean>

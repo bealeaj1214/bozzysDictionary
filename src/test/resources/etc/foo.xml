@@ -25,6 +25,7 @@
 	<prop key="kilo"> NATO phonetic letter kilo</prop>
 	<prop key="lima"> NATO phonetic letter lima</prop>
 	<prop key="mike"> NATO phonetic letter mike</prop>
+	<prop key="foo.greek.letters">alpha,beta, gamma, delta,epsilon</prop>
       </props>
     </property>
   </bean>

@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+  <bean id="tau.uniform" parent="barParent">
+    <property name="value" value="${uniform}"/>
+  </bean>
+  
+  <bean id="tau.victor" parent="barParent">
+    <property name="value" value="${victor}"/>
+  </bean>
+  
+  <bean id="tau.whiskey" parent="barParent">
+    <property name="value" value="${whiskey}"/>
+  </bean>
+  
+  <bean id="tau.xray" parent="barParent">
+    <property name="value" value="${xray}"/>
+  </bean>
+  
+  <bean id="tau.yankee" parent="barParent">
+    <property name="value" value="${yankee}"/>
+  </bean>
+  
+  <bean id="tau.zulu" parent="barParent">
+    <property name="value" value="${zulu}"/>
+  </bean>
+
+</beans>

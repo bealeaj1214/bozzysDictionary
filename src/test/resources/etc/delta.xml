@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+  <bean id="delta.alfa" parent="fooParent">
+    <property name="value" value="${alfa}"/>
+  </bean>
+  
+  <bean id="delta.bravo" parent="fooParent">
+    <property name="value" value="${bravo}"/>
+  </bean>
+  
+  <bean id="delta.charlie" parent="fooParent">
+    <property name="value" value="${charlie}"/>
+  </bean>
+  
+  <bean id="delta.delta" parent="fooParent">
+    <property name="value" value="${delta}"/>
+  </bean>
+  
+  <bean id="delta.echo" parent="fooParent">
+    <property name="value" value="${echo}"/>
+  </bean>
+  
+  <bean id="delta.foxtrot" parent="fooParent">
+    <property name="value" value="${foxtrot}"/>
+  </bean>
+
+</beans>
