@@ -1,0 +1,83 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+  <bean id="barParent"
+	abstract="true"
+	class="org.arjibus.poc.boozy.eloader.javabeans.Bar"/>
+
+  <bean id="bar.properties"
+	class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="properties">
+      <props>
+	<prop key="november"> NATO phonetic letter november</prop>
+	<prop key="oscar"> NATO phonetic letter oscar</prop>
+	<prop key="papa"> NATO phonetic letter papa</prop>
+	<prop key="quebec"> NATO phonetic letter quebec</prop>
+	<prop key="romeo"> NATO phonetic letter romeo</prop>
+	<prop key="sierra"> NATO phonetic letter sierra</prop>
+	<prop key="tango"> NATO phonetic letter tango</prop>
+	<prop key="uniform"> NATO phonetic letter uniform</prop>
+	<prop key="victor"> NATO phonetic letter victor</prop>
+	<prop key="whisky"> NATO phonetic letter whisky</prop>
+	<prop key="xray"> NATO phonetic letter xray</prop>
+	<prop key="yankee"> NATO phonetic letter yankee</prop>
+	<prop key="zulu"> NATO phonetic letter zulu</prop>
+      </props>
+    </property>
+  </bean>
+
+  <bean id="november" parent="booParent">
+    <property name="value" value="${november}"/>
+  </bean>
+  
+  <bean id="oscar" parent="booParent">
+    <property name="value" value="${oscar}"/>
+  </bean>
+  
+  <bean id="papa" parent="booParent">
+    <property name="value" value="${papa}"/>
+  </bean>
+  
+  <bean id="quebec" parent="booParent">
+    <property name="value" value="${quebec}"/>
+  </bean>
+  
+  <bean id="romeo" parent="booParent">
+    <property name="value" value="${romeo}"/>
+  </bean>
+  
+  <bean id="sierra" parent="booParent">
+    <property name="value" value="${sierra}"/>
+  </bean>
+  
+  <bean id="tango" parent="booParent">
+    <property name="value" value="${tango}"/>
+  </bean>
+  
+  <bean id="uniform" parent="booParent">
+    <property name="value" value="${uniform}"/>
+  </bean>
+  
+  <bean id="victor" parent="booParent">
+    <property name="value" value="${victor}"/>
+  </bean>
+  
+  <bean id="whisky" parent="booParent">
+    <property name="value" value="${whisky}"/>
+  </bean>
+  
+  <bean id="xray" parent="booParent">
+    <property name="value" value="${xray}"/>
+  </bean>
+  
+  <bean id="yankee" parent="booParent">
+    <property name="value" value="${yankee}"/>
+  </bean>
+  
+  <bean id="zulu" parent="booParent">
+    <property name="value" value="${zulu}"/>
+  </bean>
+</beans>
+
