@@ -27,7 +27,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.FileSystemResourceLoader;
 
 
-public class FooXMLStructureTst { 
+public class FooXMLStructureTest { 
 
     static final String fooSpringXMLResource="/etc/foo.xml";
 
@@ -88,5 +88,14 @@ public class FooXMLStructureTst {
 
 	ctx.refresh();
 
+    }
+
+    @Test
+    public void checkSysProp(){
+	String fooKey="foo.greek.letters";
+	System.out.println(fooKey + " :" + System.getProperty(fooKey));
+
+	String barKey="bar.greek.letters";
+	System.out.println(barKey + " :" + System.getProperty(barKey));
     }
 }
