@@ -19,6 +19,11 @@ repositories {
 
         }
 
+test {
+    systemProperties =[ 'foo.greek.letters' : 'alpha,beta, gamma, delta,epsilon' ,
+                     'bar.greek.letters' : 'omega, psi, upsilon, tau,sigma',
+		     'snafu.greek.letters' : 'omicron' ]
+}
 
 task setupCscope {
      description = ' create src/cscope.files - the listing of all java files '
