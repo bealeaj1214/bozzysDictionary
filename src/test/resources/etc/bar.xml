@@ -6,29 +6,33 @@
   <bean id="barParent"
 	abstract="true"
 	class="org.arjibus.poc.boozy.eloader.javabeans.Bar"/>
-
-  <bean id="bar.properties"
+  
+  <bean id="booParent"
+	abstract="true"
+	class="org.arjibus.poc.boozy.eloader.javabeans.Bar"/>
+  
+  <!--bean id="bar.properties"
 	class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     <property name="properties">
       <props>
-	<prop key="november"> NATO phonetic letter november</prop>
-	<prop key="oscar"> NATO phonetic letter oscar</prop>
-	<prop key="papa"> NATO phonetic letter papa</prop>
-	<prop key="quebec"> NATO phonetic letter quebec</prop>
-	<prop key="romeo"> NATO phonetic letter romeo</prop>
-	<prop key="sierra"> NATO phonetic letter sierra</prop>
-	<prop key="tango"> NATO phonetic letter tango</prop>
-	<prop key="uniform"> NATO phonetic letter uniform</prop>
-	<prop key="victor"> NATO phonetic letter victor</prop>
-	<prop key="whisky"> NATO phonetic letter whisky</prop>
-	<prop key="xray"> NATO phonetic letter xray</prop>
-	<prop key="yankee"> NATO phonetic letter yankee</prop>
-	<prop key="zulu"> NATO phonetic letter zulu</prop>
+	<prop key="november"> bar NATO phonetic letter november</prop>
+	<prop key="oscar"> bar NATO phonetic letter oscar</prop>
+	<prop key="papa"> bar  NATO phonetic letter papa</prop>
+	<prop key="quebec"> bar ** NATO phonetic letter quebec</prop>
+	<prop key="romeo"> bar ** NATO phonetic letter romeo</prop>
+	<prop key="sierra"> bar ** NATO phonetic letter sierra</prop>
+	<prop key="tango"> bar ** NATO phonetic letter tango</prop>
+	<prop key="uniform"> bar ** NATO phonetic letter uniform</prop>
+	<prop key="victor"> bar ** NATO phonetic letter victor</prop>
+	<prop key="whisky"> bar ** NATO phonetic letter whisky</prop>
+	<prop key="xray"> bar ** NATO phonetic letter xray</prop>
+	<prop key="yankee"> bar ** NATO phonetic letter yankee</prop>
+	<prop key="zulu"> bar ** NATO phonetic letter zulu</prop>
 	<prop key="bar.greek.letters">omega, psi, upsilon, tau,sigma</prop>
       </props>
     </property>
-  </bean>
-
+  </bean-->
+  
   <bean id="november" parent="booParent">
     <property name="value" value="${november}"/>
   </bean>
@@ -80,5 +84,6 @@
   <bean id="zulu" parent="booParent">
     <property name="value" value="${zulu}"/>
   </bean>
+
 </beans>
 

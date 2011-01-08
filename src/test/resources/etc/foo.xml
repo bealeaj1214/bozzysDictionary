@@ -11,7 +11,7 @@
   <bean id="foo.properties"
 	class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     <property name="properties">
-      <props>
+      <props merge="true">
 	<prop key="alfa"> NATO phonetic letter alfa </prop>
 	<prop key="bravo"> NATO phonetic letter bravo</prop>
 	<prop key="charlie"> NATO phonetic letter charlie</prop>
@@ -26,6 +26,20 @@
 	<prop key="lima"> NATO phonetic letter lima</prop>
 	<prop key="mike"> NATO phonetic letter mike</prop>
 	<prop key="foo.greek.letters">alpha,beta, gamma, delta,epsilon</prop>
+	<prop key="november"> NATO phonetic letter november</prop>
+	<prop key="oscar"> NATO phonetic letter oscar</prop>
+	<prop key="papa"> NATO phonetic letter papa</prop>
+	<prop key="quebec"> NATO phonetic letter quebec</prop>
+	<prop key="romeo"> NATO phonetic letter romeo</prop>
+	<prop key="sierra"> NATO phonetic letter sierra</prop>
+	<prop key="tango"> NATO phonetic letter tango</prop>
+	<prop key="uniform"> NATO phonetic letter uniform</prop>
+	<prop key="victor"> NATO phonetic letter victor</prop>
+	<prop key="whisky"> NATO phonetic letter whisky</prop>
+	<prop key="xray"> NATO phonetic letter xray</prop>
+	<prop key="yankee"> NATO phonetic letter yankee</prop>
+	<prop key="zulu"> NATO phonetic letter zulu</prop>
+	<prop key="bar.greek.letters">omega, psi, upsilon, tau,sigma</prop>
       </props>
     </property>
   </bean>
