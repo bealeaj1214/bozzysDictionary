@@ -25,7 +25,7 @@ public class TriPhaseBootstrapContextLoader implements BootstrapContextLoader {
 
     static final String PHASE_ONE_KEY="primordial.property.resource";
     static final String PHASE_TWO_KEY="xml.reader.resources";
-    static final String PHASE_THREE_KEY="primordial.property.resource";
+    static final String PHASE_THREE_KEY="parameteized.resource.generator.pairs";
     static final Pattern commaSeparator = Pattern.compile("\\s*,\\s*");
 
 
@@ -47,6 +47,8 @@ public class TriPhaseBootstrapContextLoader implements BootstrapContextLoader {
 
 	    Resource[] generatedXmlResources = null;
 
+	    thirdPhaseGetXmlResources(props);
+
 	    setupXmlBeanDefinations(concatResources(xmlResoures,generatedXmlResources),
 				    ctx);
 
@@ -54,6 +56,8 @@ public class TriPhaseBootstrapContextLoader implements BootstrapContextLoader {
 	
 	return ctx;	
     }
+
+    
 
     protected Properties loadBootStrapProperties(String resourceLocation) 
 	throws IOException{
@@ -121,6 +125,9 @@ public class TriPhaseBootstrapContextLoader implements BootstrapContextLoader {
     protected Resource[] thirdPhaseGetXmlResources(Properties props){
 	Resource[] resourcesArry =null;
 
+	String pairsStringList =props.getProperty(PHASE_THREE_KEY);
+
+	String[]  generatorParamPairs =commaSeparator.split(pairsStringList);
 
 	return resourcesArry;
     }
