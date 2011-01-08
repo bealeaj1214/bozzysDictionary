@@ -1,18 +1,24 @@
 package org.arjibus.poc.boozy.eloader;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Properties;
 
 import java.util.regex.Pattern;
 
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.util.ResourceUtils;
+
 
 
 public class TriPhaseBootstrapContextLoader implements BootstrapContextLoader { 
@@ -39,6 +45,10 @@ public class TriPhaseBootstrapContextLoader implements BootstrapContextLoader {
 	    Resource[] xmlResoures =
 		secondPhaseGetXmlResources(props);
 
+	    Resource[] generatedXmlResources = null;
+
+	    setupXmlBeanDefinations(concatResources(xmlResoures,generatedXmlResources),
+				    ctx);
 
 	}
 	
@@ -56,6 +66,12 @@ public class TriPhaseBootstrapContextLoader implements BootstrapContextLoader {
 
 	    props = new Properties();
             props.load(resource.getInputStream());
+
+	}
+	else {
+	    FileInputStream is = new FileInputStream(resourceLocation);
+	    props = new Properties();
+            props.load(is);
 
 	}
 	return props;
@@ -85,19 +101,68 @@ public class TriPhaseBootstrapContextLoader implements BootstrapContextLoader {
 	    String[] resources = commaSeparator.split(xmlReaderResources);
 	    ArrayList<Resource> resourceList = new ArrayList<Resource>();
 
-		for(String resource: resources){
-		    if(ResourcePatternUtils.isUrl(resource)){
-			UrlResource res = 
+	    for(String resource: resources){
+		if(ResourcePatternUtils.isUrl(resource)){
+		    UrlResource res = 
 			new UrlResource(ResourceUtils.getURL(resource));
-			resourceList.add(res);
+		    resourceList.add(res);
 
-		    }
 		}
+	    }
 	    resourcesArry = resourceList.toArray(new Resource[resourceList.size()]);
 
 	}
 
+
 	return resourcesArry;
     }
 
+
+    protected Resource[] thirdPhaseGetXmlResources(Properties props){
+	Resource[] resourcesArry =null;
+
+
+	return resourcesArry;
+    }
+
+
+    protected void setupXmlBeanDefinations(Resource[] resources,
+					   BeanDefinitionRegistry beanRegistry){
+	
+	XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(beanRegistry);
+	
+	
+	FileSystemResourceLoader resourceLoader = new FileSystemResourceLoader();
+        
+        xmlReader.setResourceLoader(resourceLoader);
+        
+        xmlReader.setValidationMode(XmlBeanDefinitionReader.VALIDATION_NONE);
+	
+	xmlReader.loadBeanDefinitions(resources);
+
+
+    }
+
+
+    protected Resource[] concatResources(Resource[] set1,Resource[]set2){
+
+	ArrayList<Resource> resourceList =
+	    new ArrayList<Resource>();
+	
+	if(set1 != null) {
+	    for(Resource resource:set1){
+		resourceList.add(resource);
+	    }
+	}
+
+	if(set2 != null) {
+	   for(Resource resource:set2){
+		resourceList.add(resource);
+	    } 
+	}
+
+	return resourceList.toArray(new Resource[resourceList.size()]);
+    }
 }
+
+
