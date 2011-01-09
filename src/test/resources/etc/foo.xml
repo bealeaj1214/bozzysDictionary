@@ -35,7 +35,8 @@
 	<prop key="tango"> NATO phonetic letter tango</prop>
 	<prop key="uniform"> NATO phonetic letter uniform</prop>
 	<prop key="victor"> NATO phonetic letter victor</prop>
-	<prop key="whisky"> NATO phonetic letter whisky</prop>
+	<prop key="whiskey"> NATO phonetic letter whiskey</prop>
+	<prop key="whisky"> NATO phonetic letter whiskey</prop>
 	<prop key="xray"> NATO phonetic letter xray</prop>
 	<prop key="yankee"> NATO phonetic letter yankee</prop>
 	<prop key="zulu"> NATO phonetic letter zulu</prop>
