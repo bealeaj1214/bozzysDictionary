@@ -6,6 +6,9 @@ import java.io.IOException;
 
 import java.util.Properties;
 
+import java.util.regex.Pattern;
+
+
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
 
@@ -16,6 +19,9 @@ import org.springframework.core.io.Resource;
  *
  */
 public abstract class MultiPhasePropertyBootstrapContextLoader extends MultiPhaseBootstrapContextLoader { 
+
+    static final public Pattern commaSeparator = Pattern.compile("\\s*,\\s*");
+    static final public Pattern equalsSeparator = Pattern.compile("\\s*=\\s*");
 
 
     abstract public BeanDefinationLoadAction createLoadAction(Properties properties) throws BootstrapException;

@@ -1,7 +1,5 @@
 package org.arjibus.poc.boozy.eloader;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.IOException;
 
 import java.util.Arrays;
@@ -24,10 +22,6 @@ public class TriPhaseBootstrapContextLoader
     static final String PHASE_ONE_KEY="primordial.property.resource";
     static final String PHASE_TWO_KEY="xml.reader.resources";
     static final String PHASE_THREE_KEY="parameteized.resource.generator.pairs";
-    static final Pattern commaSeparator = Pattern.compile("\\s*,\\s*");
-    static final Pattern equalsSeparator = Pattern.compile("\\s*=\\s*");
-
-
    
 
     public BeanDefinationLoadAction createLoadAction(Properties props) throws BootstrapException {
