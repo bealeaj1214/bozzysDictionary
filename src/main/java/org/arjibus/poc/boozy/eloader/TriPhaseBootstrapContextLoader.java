@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import java.util.regex.Pattern;
@@ -27,14 +28,15 @@ public class TriPhaseBootstrapContextLoader implements BootstrapContextLoader {
     static final String PHASE_TWO_KEY="xml.reader.resources";
     static final String PHASE_THREE_KEY="parameteized.resource.generator.pairs";
     static final Pattern commaSeparator = Pattern.compile("\\s*,\\s*");
-
+    static final Pattern equalsSeparator = Pattern.compile("\\s*=\\s*");
 
     public GenericApplicationContext createContext(String[] args)
-	throws IOException, BeansException {
+	throws BootstrapException {
 	
 	GenericApplicationContext ctx =null;
 
 	if(args != null & (args.length > 0)){
+	    try {
 	    ctx = new GenericApplicationContext();
 	    
 
@@ -45,12 +47,26 @@ public class TriPhaseBootstrapContextLoader implements BootstrapContextLoader {
 	    Resource[] xmlResoures =
 		secondPhaseGetXmlResources(props);
 
-	    Resource[] generatedXmlResources = null;
-
-	    thirdPhaseGetXmlResources(props);
+	    Resource[] generatedXmlResources = thirdPhaseGetXmlResources(props);
 
 	    setupXmlBeanDefinations(concatResources(xmlResoures,generatedXmlResources),
 				    ctx);
+	    }
+	    catch(IOException  e){
+		handleException(e);
+	    }
+	    catch(BeansException e){
+		handleException(e);
+	    }
+	    catch(ClassNotFoundException  e){
+		handleException(e);
+	    }
+	    catch(IllegalAccessException  e){
+		handleException(e);
+	    }
+	    catch(InstantiationException  e){
+		handleException(e);
+	    }
 
 	}
 	
@@ -122,16 +138,6 @@ public class TriPhaseBootstrapContextLoader implements BootstrapContextLoader {
     }
 
 
-    protected Resource[] thirdPhaseGetXmlResources(Properties props){
-	Resource[] resourcesArry =null;
-
-	String pairsStringList =props.getProperty(PHASE_THREE_KEY);
-
-	String[]  generatorParamPairs =commaSeparator.split(pairsStringList);
-
-	return resourcesArry;
-    }
-
 
     protected void setupXmlBeanDefinations(Resource[] resources,
 					   BeanDefinitionRegistry beanRegistry){
@@ -157,19 +163,53 @@ public class TriPhaseBootstrapContextLoader implements BootstrapContextLoader {
 	    new ArrayList<Resource>();
 	
 	if(set1 != null) {
-	    for(Resource resource:set1){
-		resourceList.add(resource);
-	    }
+	    resourceList.addAll(Arrays.asList(set1));
 	}
 
 	if(set2 != null) {
-	   for(Resource resource:set2){
-		resourceList.add(resource);
-	    } 
+	    resourceList.addAll(Arrays.asList(set2));
 	}
 
 	return resourceList.toArray(new Resource[resourceList.size()]);
     }
+
+
+    protected Resource[] thirdPhaseGetXmlResources(Properties props) 
+	throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+
+	Resource[] resourcesArry =null;
+
+	String pairsStringList =props.getProperty(PHASE_THREE_KEY);
+
+	String[]  generatorParamPairs =commaSeparator.split(pairsStringList);
+	ArrayList<Resource> list = new ArrayList<Resource>();
+	for(String pair : generatorParamPairs){
+
+	    String[] clazzNameAndParam=equalsSeparator.split(pair);
+	    if(2== clazzNameAndParam.length ) {
+		List<Resource> resources =evaluateClazzNameAndParam(clazzNameAndParam[0],
+								    clazzNameAndParam[1]);
+
+		list.addAll(resources);	
+	    }
+	}
+	resourcesArry = list.toArray(new Resource[list.size()]);
+
+	return resourcesArry;
+    }
+
+
+    protected List<Resource> evaluateClazzNameAndParam(String clazzName, String param) 
+	throws ClassNotFoundException, InstantiationException, IllegalAccessException{
+
+	ResourceGenerator rGen = (ResourceGenerator) Class.forName(clazzName).newInstance();
+	return Arrays.asList(rGen.getResources(param));
+    }
+
+    private void handleException(Exception e) throws BootstrapException {
+	throw new BootstrapException(e.getMessage(),e);
+    }
+
 }
 
 

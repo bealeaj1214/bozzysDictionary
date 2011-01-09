@@ -8,6 +8,6 @@ import org.springframework.context.support.GenericApplicationContext;
 public interface BootstrapContextLoader { 
 
     public GenericApplicationContext createContext(String[] args)
-	throws IOException, BeansException;
+	throws BootstrapException;
 
 }
