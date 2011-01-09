@@ -20,6 +20,8 @@ public class BootstrapContextLoaderTest {
 
     static final String demoPropertiesResource="/conf/demo.properties";
 
+    static Logger logger = Logger.getLogger(BootstrapContextLoaderTest.class);
+
 
     @BeforeClass
     static public void before() {
@@ -53,6 +55,8 @@ public class BootstrapContextLoaderTest {
     @Test
     public void checkTriPhaseBootstrapContextLoader() throws Exception {
 
+	logger.info("Start TriPhaseBootstrapContextLoader checkout test");
+
 	BootstrapContextLoader loader = new TriPhaseBootstrapContextLoader();
 
 	File file = provideDemoPropertiesResourceAsFile();
@@ -64,6 +68,26 @@ public class BootstrapContextLoaderTest {
 
 	Assert.assertNotNull(context);
 
+	context.refresh();
+    }
+
+
+    @Test
+    public void checkTetraPhaseBootstrapContextLoader() throws Exception {
+
+	logger.info("Start TetraPhaseBootstrapContextLoader checkout test");
+
+	BootstrapContextLoader loader = new TetraPhaseBootstrapContextLoader ();
+
+	File file = provideDemoPropertiesResourceAsFile();
+	
+	String[] args = { file.getAbsolutePath() };
+	
+	GenericApplicationContext context =
+	    loader.createContext(args);
+	
+	Assert.assertNotNull(context);
+	
 	context.refresh();
     }
 
