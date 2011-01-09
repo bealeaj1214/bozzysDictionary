@@ -1,9 +1,12 @@
-	apply plugin: 'java'
+apply plugin: 'java'
 	
+apply plugin: 'maven'
+
+
 description = 'poc project for alternative spring bean defination/loading framework'
 group = 'org.arjibus.poc'
 
-version = '0.0.1-SNAPSHOT'
+version = '0.5.0-SNAPSHOT'
 
 
 dependencies {
@@ -24,6 +27,14 @@ test {
                      'bar.greek.letters' : 'omega, psi, upsilon, tau,sigma',
 		     'snafu.greek.letters' : 'omicron' ]
 }
+
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "file://localhost/tmp/localRepo")
+    }
+}
+
 
 task setupCscope {
      description = ' create src/cscope.files - the listing of all java files '
