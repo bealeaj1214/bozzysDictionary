@@ -24,8 +24,10 @@ repositories {
 
 test {
     systemProperties =[ 'foo.greek.letters' : 'alpha,beta, gamma, delta,epsilon' ,
-                     'bar.greek.letters' : 'omega, psi, upsilon, tau,sigma',
-		     'snafu.greek.letters' : 'omicron' ]
+        'bar.greek.letters' : 'omega, psi, upsilon, tau,sigma',
+        'snafu.greek.letters' : 'omicron' ,
+        'parented.bean.definations' : 'propFooParent=classpath:etc/testParentedPropertiesBeanDefinations.properties'
+    ]
 }
 
 
