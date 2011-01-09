@@ -13,17 +13,13 @@ import java.util.regex.Pattern;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
-import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.core.io.support.ResourcePatternUtils;
-import org.springframework.util.ResourceUtils;
 
 
 
-public class TriPhaseBootstrapContextLoader implements BootstrapContextLoader { 
+public class TriPhaseBootstrapContextLoader 
+    extends MultiPhasePropertyBootstrapContextLoader { 
 
     static final String PHASE_ONE_KEY="primordial.property.resource";
     static final String PHASE_TWO_KEY="xml.reader.resources";
@@ -31,74 +27,48 @@ public class TriPhaseBootstrapContextLoader implements BootstrapContextLoader {
     static final Pattern commaSeparator = Pattern.compile("\\s*,\\s*");
     static final Pattern equalsSeparator = Pattern.compile("\\s*=\\s*");
 
-    public GenericApplicationContext createContext(String[] args)
-        throws BootstrapException {
-        
-        GenericApplicationContext ctx =null;
 
-        if(args != null & (args.length > 0)){
-            try {
-            ctx = new GenericApplicationContext();
-            
+   
 
-            Properties props = loadBootStrapProperties(args[0]);
+    public BeanDefinationLoadAction createLoadAction(Properties props) throws BootstrapException {
+	BeanDefinationLoadAction compositeAction =null;
 
-            firstPhaseLoadPrimordialProperties(props);
+	try {
 
-            Resource[] xmlResoures =
-                secondPhaseGetXmlResources(props);
+	BeanDefinationLoadAction firstLoadAction =
+	    firstPhaseLoadPrimordialProperties(props);
 
-            Resource[] generatedXmlResources = thirdPhaseGetXmlResources(props);
+	BeanDefinationLoadAction secondLoadAction =
+	    secondPhaseGetLoadAction(props);
 
-            setupXmlBeanDefinations(concatResources(xmlResoures,generatedXmlResources),
-                                    ctx);
-            }
-            catch(IOException  e){
-                handleException(e);
-            }
-            catch(BeansException e){
-                handleException(e);
-            }
-            catch(ClassNotFoundException  e){
-                handleException(e);
-            }
-            catch(IllegalAccessException  e){
-                handleException(e);
-            }
-            catch(InstantiationException  e){
-                handleException(e);
-            }
+	BeanDefinationLoadAction thirdLoadAction = thirdPhaseGetLoadAction(props);
 
-        }
-        
-        return ctx;     
+	BeanDefinationLoadAction[] actions = { firstLoadAction,
+					       secondLoadAction,
+					       thirdLoadAction    };
+
+	compositeAction =  new CompositeBeanDefinationLoadAction(actions) ;
+
+	}
+	catch(IOException  e){
+	    handleException(e);
+	}
+	catch(ClassNotFoundException  e){
+	    handleException(e);
+	}
+	catch(IllegalAccessException  e){
+	    handleException(e);
+	}
+	catch(InstantiationException  e){
+	    handleException(e);
+	}
+
+	return compositeAction;
+
     }
 
-    
 
-    protected Properties loadBootStrapProperties(String resourceLocation) 
-        throws IOException{
-
-        Properties props = null;
-        Resource resource =
-            ResourceLocationUtils.convertLocation(resourceLocation);
-
-        InputStream inputStream=null;
-
-        if(resource != null){
-            inputStream=resource.getInputStream();
-        }
-        else {
-            FileInputStream is = new FileInputStream(resourceLocation);
-            inputStream=is;
-            
-        }
-        props=loadPropertiesFromInputStream(inputStream);
-
-        return props;
-    }
-
-    protected void firstPhaseLoadPrimordialProperties(Properties props)
+    protected BeanDefinationLoadAction firstPhaseLoadPrimordialProperties(Properties props)
         throws IOException {
         String primordialPropertiesResource=
             props.getProperty(PHASE_ONE_KEY);
@@ -107,9 +77,10 @@ public class TriPhaseBootstrapContextLoader implements BootstrapContextLoader {
             PrimordialPropertyLoader.loadPrimordialProperties(primordialPropertiesResource);
         }
 
+	return new NullBeanDefinationLoadAction();
     }
 
-    protected Resource[] secondPhaseGetXmlResources(Properties props)
+    protected BeanDefinationLoadAction secondPhaseGetLoadAction(Properties props)
         throws IOException {
 
         Resource[] resourcesArry =null;
@@ -133,48 +104,11 @@ public class TriPhaseBootstrapContextLoader implements BootstrapContextLoader {
 
         }
 
-
-        return resourcesArry;
+        return new FileXmlBeanDefinationLoadAction(resourcesArry);
     }
 
 
-
-    protected void setupXmlBeanDefinations(Resource[] resources,
-                                           BeanDefinitionRegistry beanRegistry){
-        
-        XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(beanRegistry);
-        
-        
-        FileSystemResourceLoader resourceLoader = new FileSystemResourceLoader();
-        
-        xmlReader.setResourceLoader(resourceLoader);
-        
-        xmlReader.setValidationMode(XmlBeanDefinitionReader.VALIDATION_NONE);
-        
-        xmlReader.loadBeanDefinitions(resources);
-
-
-    }
-
-
-    protected Resource[] concatResources(Resource[] set1,Resource[]set2){
-
-        ArrayList<Resource> resourceList =
-            new ArrayList<Resource>();
-        
-        if(set1 != null) {
-            resourceList.addAll(Arrays.asList(set1));
-        }
-
-        if(set2 != null) {
-            resourceList.addAll(Arrays.asList(set2));
-        }
-
-        return resourceList.toArray(new Resource[resourceList.size()]);
-    }
-
-
-    protected Resource[] thirdPhaseGetXmlResources(Properties props) 
+    protected BeanDefinationLoadAction thirdPhaseGetLoadAction(Properties props) 
         throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 
         Resource[] resourcesArry =null;
@@ -195,7 +129,7 @@ public class TriPhaseBootstrapContextLoader implements BootstrapContextLoader {
         }
         resourcesArry = list.toArray(new Resource[list.size()]);
 
-        return resourcesArry;
+        return new FileXmlBeanDefinationLoadAction(resourcesArry);
     }
 
 
@@ -206,26 +140,8 @@ public class TriPhaseBootstrapContextLoader implements BootstrapContextLoader {
         return Arrays.asList(rGen.getResources(param));
     }
 
-    private void handleException(Exception e) throws BootstrapException {
-        throw new BootstrapException(e.getMessage(),e);
-    }
 
-
-    private Properties loadPropertiesFromInputStream(InputStream inStream)
-        throws IOException {
-
-	Properties props = new Properties();
-
-        try {
-            props.load(inStream);
-        }
-        finally {
-            if(inStream != null){
-                inStream.close();
-            }
-        }
-        return props;
-    }
+    
 }
 
 
