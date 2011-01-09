@@ -17,10 +17,11 @@ public class PrimordialPropertyLoader {
 
     static void loadPrimordialProperties(String resourceLocation) 
         throws IOException {
-        if(ResourcePatternUtils.isUrl(resourceLocation)){
 
-            UrlResource resource = 
-                new UrlResource(ResourceUtils.getURL(resourceLocation));
+	Resource resource =
+	    ResourceLocationUtils.convertLocation(resourceLocation);
+
+        if(resource != null){
 
             Properties props = new Properties();
             props.load(resource.getInputStream());
